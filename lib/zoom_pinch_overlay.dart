@@ -53,6 +53,7 @@ class ZoomOverlay extends StatefulWidget {
     this.modalBarrierColor,
     this.onScaleStart,
     this.onScaleStop,
+    this.useRootOverlay = false,
   }) : super(key: key);
 
   /// A widget to make zoomable.
@@ -82,6 +83,9 @@ class ZoomOverlay extends StatefulWidget {
   /// add callback functions
   final VoidCallback? onScaleStart;
   final VoidCallback? onScaleStop;
+
+  // Use root overlay
+  final bool useRootOverlay;
 
   @override
   _ZoomOverlayState createState() => _ZoomOverlayState();
@@ -239,7 +243,8 @@ class _ZoomOverlayState extends State<ZoomOverlay>
 
   Future<void> show() async {
     if (!_isZooming) {
-      final overlayState = Overlay.of(context);
+      final overlayState =
+          Overlay.of(context, rootOverlay: widget.useRootOverlay);
       _overlayEntry = OverlayEntry(builder: _build);
       overlayState.insert(_overlayEntry!);
     }
